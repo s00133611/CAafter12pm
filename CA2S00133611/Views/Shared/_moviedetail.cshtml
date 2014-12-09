@@ -1,0 +1,97 @@
+﻿@*@model IEnumerable<CA2S00133611.Models.Movie>
+
+
+@if (Model.Any())
+    
+    
+    
+    <table id="MovieTable" class="table table-condensed table-striped table-bordered"
+           style="table-layout:fixed; margin-bottom:0px">
+
+        <tr>
+            <th colspan="3">
+                @ViewBag.Details
+                </th>
+        </tr>
+        @*//if model is not empty*@
+      @*  @if (Model!=null)*@
+        @*{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+
+                        @Html.DisplayFor(modelItem =>item.ID)*@
+                    @*</td>
+                    <td>
+
+                        <a onclick="showEditMovie('@item.ID','@item.OnScreenName','@item.Genre')" class="=btn btn-warning">Edit</a>
+                        <a onclick="deleteMovie('@item.OnScreenName')"class="=btn btn-xs btn-danger">delete</a>*@
+
+  
+    
+                    @*</td>
+                </tr>*@
+                
+                      @*}
+            
+            
+        }
+
+
+
+        @*closing of if statement*@
+    @*</table>*@*@
+    
+   
+    @model CA2S00133611.Models.Movie
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Movie</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MovieTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovieTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Actor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Actor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OnScreenName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OnScreenName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+    

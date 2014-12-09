@@ -1,0 +1,189 @@
+﻿@model IEnumerable<CA2S00133611.Models.Movie>
+<div class="container-fluid" style="background-color: ButtonFace">
+    
+    <div class="container-fluid">
+        @{
+            ViewBag.Title = "Index";
+        }
+
+        <h2 style="font-family:'Agency FB'">List of Movies and Actors</h2>
+        <div class="row">
+            <p>
+                <div class="pull-right">
+                    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+                </div>
+
+
+                @using (Html.BeginForm())
+                {
+                <p>
+                    <div class="form-group">
+                        @Html.DropDownList("movieGenre", (SelectList)ViewBag.genre, "Select Genre", new { @class = "btn btn-info" })
+                        @*<label class="btn btn-success">Genre</label> @Html.DropDownList("movieGenre", "All")*@
+                        @*Actor: @Html.DropDownList("movieActlst", "All")*@
+                        Title: @Html.TextBox("SearchString")
+                        <input type="submit" onclick="cleartextbox" id="clear1" class="btn btn-default" value="clear">
+                    </div>
+
+
+                    <input type="submit" class="btn btn-success" data-loading-text="Finished" value="Filter" />
+                </p>
+                }
+
+            </div>
+
+
+            </p>
+            <table class="table table-condensed table-striped" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MovieTitle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Actor)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OnScreenName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Genre)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @*onclick 'showdetails' should jump to the ajax and display content*@
+                        <span class="btn btn-xs btn-warning" onclick="showdetails('@item.ID')">@Html.DisplayFor(modelItem => item.MovieTitle)</span>
+                        @*@Html.DisplayFor(modelItem => item.MovieTitle)</span>*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Actor)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OnScreenName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    <td>
+                        <span class="badge">@item.Genre.ToString().Substring(0, 1) </span>
+
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-info" }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-success" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+                }
+
+
+            </table>
+
+        </div>
+
+        <div>
+
+
+
+            <div class="col-xs-4">
+                <div id="Detail"></div>
+                @*here i add my partial view looping through each item what this acheived is the partial views appeared every time I had no control over it so i am doing it your way instead*@
+                @*@foreach (var item in Model)
+                    {
+                        @Html.Partial("_moviedetail", item)
+
+                    }*@
+                <form id="Detail" hidden="">
+                    <div class="form-group" style="margin-top:10px">
+                        <input type="hidden" name="ID">
+                        <input type="submit" value="Add" class="btn btn success" style="margin-top:-5px" />
+                        &nbsp;<input type="text" name="name"><span>&nbsp;to Camp</span>
+
+
+
+
+                    </div>
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+@section scripts
+{
+    <script>
+
+        
+        
+        $(function () {
+            toastr.success('You are now viewing the Movie index page');
+            
+        });
+
+       
+        $(function () {
+
+            $('.form-group input:button').click(function () {
+                $('input#quantity1').val('');
+            });
+
+        });
+
+
+        // ajax function to create partial view 
+        function showdetails(ID) {
+            // trying to get the partial working ajax is triggering but its not working #Detail should be #Details but this locks up my ajax
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("MoviesById")',
+                data: { id: ID },
+                success: function (data) {
+                    $('#Detail').hide;
+                    $('#Detail').html(data);
+                  
+                    
+                    $('#Detail').fadeIn("slow");
+
+
+                },
+
+                error: function (data) {
+
+                    $('#Detail').html('<h3>Almost working not quite this is where the partial view should be : )</h3>').fadeIn("slow");
+                }});
+            
+        
+            $(function () {      // ready event
+                $(".pie").peity("pie"); // make the pie chart
+              
+                $('.peity').tooltip({ title: '@ViewBag.Details Genre / @ViewBag.Details Genre', placement: 'bottom' }); 
+            });
+   
+
+
+        }
+        function clrCtrl() {
+
+            var elements = [];
+            elements = document.getElementsByClassName("MyTestClass");
+
+            for (var i = 0; i < elements.length ; i++) {
+                elements[i].value = "";
+            }
+
+        }
+    </script>
+
+
+
+}
+
+

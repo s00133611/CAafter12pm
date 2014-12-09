@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <div class="jumbotron">
+        
+        <img id="img1" src="~/images/themovies.gif" />
+        @Html.ActionLink("Movies Click Here", "Index", "movies", null, new { @class = "btn btn-success" })
+    </div>
+    @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-info btn-xs" }) |*@
+    <div class="row">
+        <div class="col-md-4">
+           
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts
+{
+    <script>
+        //$("#img1").rotate({
+            //bind:
+            //  {
+            //      mouseover: function () {
+            //          $(this).rotate({ animateTo: 180 })
+        //          },
+        //          mouseout: function () {
+        //              $(this).rotate({ animateTo: 0 })
+        //          }
+        //      }
+
+        //});
+
+        $(function () {
+            toastr.success('You are now viewing the home page');
+
+        });
+
+
+    </script>
+
+
+
+}
